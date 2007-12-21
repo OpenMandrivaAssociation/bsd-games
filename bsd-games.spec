@@ -24,6 +24,7 @@ Patch9: bsd-games-2.17-banner-rename.patch
 Patch10: bsd-games-2.17-stdio-c++.patch
 Patch11: bsd-games-2.17-nolibtermcap.patch
 Patch12: bsd-games-2.17-tetris-rename.patch
+BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}
 BuildRequires: ncurses-devel words flex bison
 
 %description
