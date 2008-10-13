@@ -1,7 +1,7 @@
 Summary: Collection of text-based games
 Name: bsd-games
 Version: 2.17
-Release: %mkrel 22
+Release: %mkrel 21
 License: BSD
 Group: Games/Other
 URL: ftp://metalab.unc.edu/pub/Linux/games/
@@ -24,6 +24,7 @@ Patch9: bsd-games-2.17-banner-rename.patch
 Patch10: bsd-games-2.17-stdio-c++.patch
 Patch11: bsd-games-2.17-nolibtermcap.patch
 Patch12: bsd-games-2.17-tetris-rename.patch
+Patch13: bsd-games-2.17-gcc4.3.patch
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}
 BuildRequires: ncurses-devel words flex bison
 
@@ -50,6 +51,7 @@ install -p -m 755 %{SOURCE1} .
 %patch10 -p0 -b .cplusplus
 %patch11 -p0 -b .nolibtermcap
 %patch12 -p0 -b .tetris.rename
+%patch13 -p1
 
 %build
 # We include a templatized configuration settings file to set
