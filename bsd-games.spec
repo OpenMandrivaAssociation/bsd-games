@@ -101,6 +101,10 @@ mv $RPM_BUILD_ROOT/%{_mandir}/man6/tetris-bsd.6.gz $RPM_BUILD_ROOT/%{_mandir}/ma
 mv $RPM_BUILD_ROOT/%{_bindir}/rain $RPM_BUILD_ROOT/%{_bindir}/bsd-rain
 mv $RPM_BUILD_ROOT/%{_mandir}/man6/rain.6.gz $RPM_BUILD_ROOT/%{_mandir}/man6/bsd-rain.6.gz
 
+# Change the binary name for hunt to prevent a conflict with hunt package
+mv $RPM_BUILD_ROOT/%{_bindir}/hunt $RPM_BUILD_ROOT/%{_bindir}/bsd-hunt
+mv $RPM_BUILD_ROOT/%{_mandir}/man6/hunt.6.gz $RPM_BUILD_ROOT/%{_mandir}/man6/bsd-hunt.6.gz
+
 # Remove this doc file.  We're copying it to a different location for Fedora.
 rm -f $RPM_BUILD_ROOT/%{_docdir}/trek.me
 
@@ -137,7 +141,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/gomoku
 %attr(2755,root,gamehack) %{_bindir}/hack
 %{_bindir}/hangman
-%{_bindir}/hunt
+%{_bindir}/bsd-hunt
 %{_bindir}/mille
 %{_bindir}/mpoly
 %{_bindir}/morse
