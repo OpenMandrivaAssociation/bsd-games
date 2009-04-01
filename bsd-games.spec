@@ -1,7 +1,7 @@
 Summary: Collection of text-based games
 Name: bsd-games
 Version: 2.17
-Release: %mkrel 21
+Release: %mkrel 22
 License: BSD
 Group: Games/Other
 URL: ftp://metalab.unc.edu/pub/Linux/games/
@@ -95,6 +95,10 @@ mv $RPM_BUILD_ROOT/%{_mandir}/man6/banner.6.gz $RPM_BUILD_ROOT/%{_mandir}/man6/v
 mv $RPM_BUILD_ROOT/%{_bindir}/tetris-bsd $RPM_BUILD_ROOT/%{_bindir}/bsd-fbg
 mv $RPM_BUILD_ROOT/%{_mandir}/man6/tetris-bsd.6.gz $RPM_BUILD_ROOT/%{_mandir}/man6/bsd-fbg.6.gz
 
+# Change the binary name for rain to prevent a conflict with mesa-demos package
+mv $RPM_BUILD_ROOT/%{_bindir}/rain $RPM_BUILD_ROOT/%{_bindir}/bsd-rain
+mv $RPM_BUILD_ROOT/%{_mandir}/man6/rain.6.gz $RPM_BUILD_ROOT/%{_mandir}/man6/bsd-rain.6.gz
+
 # Remove this doc file.  We're copying it to a different location for Fedora.
 rm -f $RPM_BUILD_ROOT/%{_docdir}/trek.me
 
@@ -142,7 +146,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_bindir}/ppt
 %{_bindir}/primes
 %{_bindir}/quiz
-%{_bindir}/rain
+%{_bindir}/bsd-rain
 %{_bindir}/random
 %attr(2755,root,games) %{_bindir}/robots
 %attr(2755,root,gamesail) %{_bindir}/sail
