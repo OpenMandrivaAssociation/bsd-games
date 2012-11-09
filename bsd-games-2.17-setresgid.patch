@@ -1,0 +1,916 @@
+diff -ru bsd-games-2.17/adventure/main.c bsd-games-2.17.n/adventure/main.c
+--- bsd-games-2.17/adventure/main.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/adventure/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -34,6 +34,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
+@@ -71,7 +72,10 @@
+ 	struct text *kk;
+ 
+ 	/* revoke setgid privileges from dm */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	init();		/* Initialize everything */
+ 	signal(SIGINT, trapdel);
+diff -ru bsd-games-2.17/arithmetic/arithmetic.c bsd-games-2.17.n/arithmetic/arithmetic.c
+--- bsd-games-2.17/arithmetic/arithmetic.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/arithmetic/arithmetic.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -117,7 +118,10 @@
+ 	int ch, cnt;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "r:o:")) != -1)
+ 		switch(ch) {
+diff -ru bsd-games-2.17/atc/main.c bsd-games-2.17.n/atc/main.c
+--- bsd-games-2.17/atc/main.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/atc/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -41,6 +41,7 @@
+  * For more info on this and all of my stuff, mail edjames@berkeley.edu.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1990, 1993\n\
+@@ -77,7 +78,10 @@
+ 
+ 	/* Open the score file then revoke setgid privileges */
+ 	open_score_file();
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	start_time = seed = time(NULL);
+ 
+diff -ru bsd-games-2.17/backgammon/backgammon/main.c bsd-games-2.17.n/backgammon/backgammon/main.c
+--- bsd-games-2.17/backgammon/backgammon/main.c	2009-04-01 16:35:43.000000000 +0200
++++ bsd-games-2.17.n/backgammon/backgammon/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #include <ncurses/termcap.h>
+ #ifndef lint
+@@ -101,7 +102,10 @@
+ 	long    t;		/* time for random num generator */
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	/* initialization */
+ 	bflag = 2;		/* default no board */
+Only in bsd-games-2.17.n/backgammon/backgammon: main.c.orig
+diff -ru bsd-games-2.17/backgammon/teachgammon/teach.c bsd-games-2.17.n/backgammon/teachgammon/teach.c
+--- bsd-games-2.17/backgammon/teachgammon/teach.c	2009-04-01 16:35:43.000000000 +0200
++++ bsd-games-2.17.n/backgammon/teachgammon/teach.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #include <ncurses/termcap.h>
+ #ifndef lint
+@@ -68,7 +69,10 @@
+ 	int     i;
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	signal(SIGINT, getout);
+ 	if (tcgetattr(0, &old) == -1)	/* get old tty mode */
+Only in bsd-games-2.17.n/backgammon/teachgammon: teach.c.orig
+diff -ru bsd-games-2.17/banner/banner.c bsd-games-2.17.n/banner/banner.c
+--- bsd-games-2.17/banner/banner.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/banner/banner.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993, 1994\n\
+@@ -1036,7 +1037,10 @@
+ 	int ch;
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "w:td")) != -1)
+ 		switch (ch) {
+diff -ru bsd-games-2.17/battlestar/battlestar.c bsd-games-2.17.n/battlestar/battlestar.c
+--- bsd-games-2.17/battlestar/battlestar.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/battlestar/battlestar.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
+@@ -64,7 +65,10 @@
+ 
+ 	/* Open the score file then revoke setgid privileges */
+ 	open_score_file();
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	if (argc < 2)
+ 		initialize(NULL);
+diff -ru bsd-games-2.17/bcd/bcd.c bsd-games-2.17.n/bcd/bcd.c
+--- bsd-games-2.17/bcd/bcd.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/bcd/bcd.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -135,7 +136,10 @@
+ 	char cardline[80];
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	/*
+ 	 * The original bcd prompts with a "%" when reading from stdin,
+diff -ru bsd-games-2.17/boggle/boggle/bog.c bsd-games-2.17.n/boggle/boggle/bog.c
+--- bsd-games-2.17/boggle/boggle/bog.c	2009-04-01 16:35:49.000000000 +0200
++++ bsd-games-2.17.n/boggle/boggle/bog.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1993\n\
+@@ -131,7 +132,10 @@
+ 	char *bspec, *p;
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	seed = 0;
+ 	batch = debug = reuse = selfuse = sflag = 0;
+diff -ru bsd-games-2.17/caesar/caesar.c bsd-games-2.17.n/caesar/caesar.c
+--- bsd-games-2.17/caesar/caesar.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/caesar/caesar.c	2009-04-01 16:36:26.000000000 +0200
+@@ -37,6 +37,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -90,7 +91,10 @@
+ 	int obs[26], try, winner;
+ 
+ 	/* revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	winnerdot = 0;
+ 	if (argc > 1)
+diff -ru bsd-games-2.17/canfield/canfield/canfield.c bsd-games-2.17.n/canfield/canfield/canfield.c
+--- bsd-games-2.17/canfield/canfield/canfield.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/canfield/canfield/canfield.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -1666,6 +1667,20 @@
+ }
+ 
+ /*
++ * Open the high score file and then drop setgid.
++ */
++void
++open_score() {
++	dbfd = open(_PATH_SCORE, O_RDWR);
++
++	/* Revoke setgid privileges */
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
++}
++
++/*
+  * procedure to initialize the game
+  */
+ void
+@@ -1679,10 +1694,6 @@
+ 	uid = getuid();
+ 	if (uid < 0)
+ 		uid = 0;
+-	dbfd = open(_PATH_SCORE, O_RDWR);
+-
+-	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
+ 
+ 	if (dbfd < 0)
+ 		return;
+@@ -1797,6 +1808,8 @@
+ 		exit(0);
+ 	}
+ #endif
++        open_score();
++
+ 	signal(SIGINT, askquit);
+ 	signal(SIGHUP, cleanup);
+ 	signal(SIGTERM, cleanup);
+diff -ru bsd-games-2.17/canfield/cfscores/cfscores.c bsd-games-2.17.n/canfield/cfscores/cfscores.c
+--- bsd-games-2.17/canfield/cfscores/cfscores.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/canfield/cfscores/cfscores.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
+@@ -78,7 +79,10 @@
+ 	int uid;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	if (argc > 2) {
+ 		printf("Usage: cfscores [user]\n");
+diff -ru bsd-games-2.17/cribbage/crib.c bsd-games-2.17.n/cribbage/crib.c
+--- bsd-games-2.17/cribbage/crib.c	2009-04-01 16:35:49.000000000 +0200
++++ bsd-games-2.17.n/cribbage/crib.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -76,7 +77,10 @@
+ 		exit(1);
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	/* Set close-on-exec flag on log file */
+ 	if (f != NULL) {
+diff -ru bsd-games-2.17/cribbage/instr.c bsd-games-2.17.n/cribbage/instr.c
+--- bsd-games-2.17/cribbage/instr.c	2005-02-16 07:24:50.000000000 +0100
++++ bsd-games-2.17.n/cribbage/instr.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ #if 0
+@@ -71,6 +72,11 @@
+ 		 * for mailx and man.  We only use a pager if stdout is
+ 		 * a terminal, and we pass the file on stdin to sh -c pager.
+ 		 */
++		if (setresgid(-1, getgid(), getgid()) != 0) {
++		    perror("Could not drop setgid privileges.  Aborting.");
++		    exit(1);
++		}
++
+ 		if (!isatty(1))
+ 			path = "cat";
+ 		else {
+diff -ru bsd-games-2.17/factor/factor.c bsd-games-2.17.n/factor/factor.c
+--- bsd-games-2.17/factor/factor.c	2004-02-08 14:20:03.000000000 +0100
++++ bsd-games-2.17.n/factor/factor.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -138,6 +139,12 @@
+ 	int ch;
+ 	char *p, buf[LINE_MAX];		/* > max number of digits. */
+ 
++	/* Revoke setgid privileges */
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
++
+ #ifdef HAVE_OPENSSL 
+ 	ctx = BN_CTX_new();
+ #endif
+@@ -145,9 +152,6 @@
+ 	if (val == NULL)
+ 		errx(1, "can't initialise bignum");
+ 
+-	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
+-
+ 	while ((ch = getopt(argc, argv, "")) != -1)
+ 		switch (ch) {
+ 		case '?':
+diff -ru bsd-games-2.17/fish/fish.c bsd-games-2.17.n/fish/fish.c
+--- bsd-games-2.17/fish/fish.c	2005-02-16 07:24:50.000000000 +0100
++++ bsd-games-2.17.n/fish/fish.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1990, 1993\n\
+@@ -103,7 +104,10 @@
+ 	int ch, move;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "p")) != -1)
+ 		switch(ch) {
+diff -ru bsd-games-2.17/fortune/fortune/fortune.c bsd-games-2.17.n/fortune/fortune/fortune.c
+--- bsd-games-2.17/fortune/fortune/fortune.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/fortune/fortune/fortune.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1986, 1993\n\
+@@ -227,7 +228,10 @@
+ #endif	/* OK_TO_WRITE_DISK */
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	getargs(ac, av);
+ 
+diff -ru bsd-games-2.17/gomoku/main.c bsd-games-2.17.n/gomoku/main.c
+--- bsd-games-2.17/gomoku/main.c	2009-04-01 16:35:49.000000000 +0200
++++ bsd-games-2.17.n/gomoku/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1994\n\
+@@ -95,7 +96,10 @@
+ 	};
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	color = curmove = 0;
+ 
+diff -ru bsd-games-2.17/hangman/main.c bsd-games-2.17.n/hangman/main.c
+--- bsd-games-2.17/hangman/main.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/hangman/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1983, 1993\n\
+@@ -57,7 +58,10 @@
+ 	int ch;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "d:m:")) != -1) {
+ 		switch (ch) {
+diff -ru bsd-games-2.17/hunt/hunt/hunt.c bsd-games-2.17.n/hunt/hunt/hunt.c
+--- bsd-games-2.17/hunt/hunt/hunt.c	2009-04-01 16:35:38.000000000 +0200
++++ bsd-games-2.17.n/hunt/hunt/hunt.c	2009-04-01 16:36:26.000000000 +0200
+@@ -30,6 +30,7 @@
+  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __RCSID("$NetBSD: hunt.c,v 1.23 2004/11/05 21:30:32 dsl Exp $");
+@@ -138,7 +139,10 @@
+ 	long		enter_status;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	enter_status = env_init((long) Q_CLOAK);
+ 	while ((c = getopt(ac, av, "Sbcfh:l:mn:op:qst:w:")) != -1) {
+diff -ru bsd-games-2.17/mille/mille.c bsd-games-2.17.n/mille/mille.c
+--- bsd-games-2.17/mille/mille.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/mille/mille.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1982, 1993\n\
+@@ -58,7 +59,10 @@
+ 	bool	restore;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	if (strcmp(av[0], "a.out") == 0) {
+ 		outf = fopen("q", "w");
+diff -ru bsd-games-2.17/monop/monop.c bsd-games-2.17.n/monop/monop.c
+--- bsd-games-2.17/monop/monop.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/monop/monop.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -65,7 +66,10 @@
+ 	char *av[];
+ {
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	srand(getpid());
+ 	heapstart = sbrk(0);
+diff -ru bsd-games-2.17/morse/morse.c bsd-games-2.17.n/morse/morse.c
+--- bsd-games-2.17/morse/morse.c	2004-02-14 00:18:04.000000000 +0100
++++ bsd-games-2.17.n/morse/morse.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+@@ -127,7 +128,10 @@
+ 	char *p;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "ds")) != -1)
+ 		switch((char)ch) {
+diff -ru bsd-games-2.17/number/number.c bsd-games-2.17.n/number/number.c
+--- bsd-games-2.17/number/number.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/number/number.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1988, 1993, 1994\n\
+@@ -94,7 +95,10 @@
+ 	char line[256];
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	lflag = 0;
+ 	while ((ch = getopt(argc, argv, "l")) != -1)
+diff -ru bsd-games-2.17/pig/pig.c bsd-games-2.17.n/pig/pig.c
+--- bsd-games-2.17/pig/pig.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/pig/pig.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1992, 1993\n\
+@@ -66,7 +67,10 @@
+ 	char buf[1024];
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "")) != -1)
+ 		switch(ch) {
+diff -ru bsd-games-2.17/pom/pom.c bsd-games-2.17.n/pom/pom.c
+--- bsd-games-2.17/pom/pom.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/pom/pom.c	2009-04-01 16:36:26.000000000 +0200
+@@ -31,6 +31,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -101,7 +102,10 @@
+ 	char buf[1024];
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	if (time(&now) == (time_t)-1)
+ 		err(1, "time");
+diff -ru bsd-games-2.17/ppt/ppt.c bsd-games-2.17.n/ppt/ppt.c
+--- bsd-games-2.17/ppt/ppt.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/ppt/ppt.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1988, 1993\n\
+@@ -73,7 +74,10 @@
+ 	int c, start, neednl, dflag;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	dflag = 0;
+ 	while ((c = getopt(argc, argv, "dh")) != -1)
+diff -ru bsd-games-2.17/primes/primes.c bsd-games-2.17.n/primes/primes.c
+--- bsd-games-2.17/primes/primes.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/primes/primes.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -119,7 +120,10 @@
+ 	char *p;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "")) != -1)
+ 		switch (ch) {
+diff -ru bsd-games-2.17/quiz/quiz.c bsd-games-2.17.n/quiz/quiz.c
+--- bsd-games-2.17/quiz/quiz.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/quiz/quiz.c	2009-04-01 16:36:26.000000000 +0200
+@@ -33,6 +33,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1991, 1993\n\
+@@ -85,7 +86,10 @@
+ 	const char *indexfile;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	indexfile = _PATH_QUIZIDX;
+ 	while ((ch = getopt(argc, argv, "i:t")) != -1)
+diff -ru bsd-games-2.17/rain/rain.c bsd-games-2.17.n/rain/rain.c
+--- bsd-games-2.17/rain/rain.c	2004-05-02 23:58:33.000000000 +0200
++++ bsd-games-2.17.n/rain/rain.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -77,7 +78,10 @@
+ 	int xpos[5], ypos[5];
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	while ((ch = getopt(argc, argv, "d:")) != -1)
+ 		switch (ch) {
+diff -ru bsd-games-2.17/random/random.c bsd-games-2.17.n/random/random.c
+--- bsd-games-2.17/random/random.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/random/random.c	2009-04-01 16:36:26.000000000 +0200
+@@ -32,6 +32,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1994\n\
+@@ -73,7 +74,10 @@
+ 	char *ep;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	denom = 0;
+ 	random_exit = unbuffer_output = 0;
+diff -ru bsd-games-2.17/robots/main.c bsd-games-2.17.n/robots/main.c
+--- bsd-games-2.17/robots/main.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/robots/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -68,7 +69,10 @@
+ 		exit(1);
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	show_only = FALSE;
+ 	Num_games = 1;
+diff -ru bsd-games-2.17/snake/snake/snake.c bsd-games-2.17.n/snake/snake/snake.c
+--- bsd-games-2.17/snake/snake/snake.c	2004-02-08 01:38:16.000000000 +0100
++++ bsd-games-2.17.n/snake/snake/snake.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -159,7 +160,10 @@
+ 		warn("fopen %s", _PATH_LOGFILE);
+ 		sleep(2);
+ 	}
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	(void) time(&tv);
+ 
+diff -ru bsd-games-2.17/snake/snscore/snscore.c bsd-games-2.17.n/snake/snscore/snscore.c
+--- bsd-games-2.17/snake/snscore/snscore.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/snake/snscore/snscore.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -75,7 +76,10 @@
+ 	struct	passwd	*p;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	fd = fopen(recfile, "r");
+ 	if (fd == NULL)
+diff -ru bsd-games-2.17/trek/main.c bsd-games-2.17.n/trek/main.c
+--- bsd-games-2.17/trek/main.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/trek/main.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -173,7 +174,10 @@
+ 	struct	termios		argp;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	av = argv;
+ 	ac = argc;
+diff -ru bsd-games-2.17/worm/worm.c bsd-games-2.17.n/worm/worm.c
+--- bsd-games-2.17/worm/worm.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/worm/worm.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -99,7 +100,10 @@
+ {
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	setbuf(stdout, outbuf);
+ 	srand(getpid());
+diff -ru bsd-games-2.17/worms/worms.c bsd-games-2.17.n/worms/worms.c
+--- bsd-games-2.17/worms/worms.c	2004-09-15 10:48:01.000000000 +0200
++++ bsd-games-2.17.n/worms/worms.c	2009-04-01 16:36:26.000000000 +0200
+@@ -29,6 +29,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE /* this must be done before the first include of unistd.h */
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1980, 1993\n\
+@@ -199,7 +200,10 @@
+ 	unsigned int delay = 0;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ 	mp = NULL;
+ 	length = 16;
+diff -ru bsd-games-2.17/wump/wump.c bsd-games-2.17.n/wump/wump.c
+--- bsd-games-2.17/wump/wump.c	2005-02-16 07:24:50.000000000 +0100
++++ bsd-games-2.17.n/wump/wump.c	2009-04-01 16:36:26.000000000 +0200
+@@ -33,6 +33,7 @@
+  * SUCH DAMAGE.
+  */
+ 
++#define _GNU_SOURCE
+ #include <sys/cdefs.h>
+ #ifndef lint
+ __COPYRIGHT("@(#) Copyright (c) 1989, 1993\n\
+@@ -145,7 +146,10 @@
+ 	int c;
+ 
+ 	/* Revoke setgid privileges */
+-	setregid(getgid(), getgid());
++        if (setresgid(-1, getgid(), getgid()) == -1) {
++            perror("Could not drop setgid privileges.  Aborting.");
++            exit(1);
++        }
+ 
+ #ifdef DEBUG
+ 	while ((c = getopt(argc, argv, "a:b:hp:r:t:d")) != -1)

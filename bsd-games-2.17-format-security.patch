@@ -1,0 +1,326 @@
+--- bsd-games-2.17/battlestar/room.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/battlestar/room.c	2009-04-01 17:28:47.000000000 +0200
+@@ -58,7 +58,7 @@
+ 					putchar(c);
+ 			} else {
+ 				if (c != '*')
+-					printf(truedirec(compass, c));
++					printf("%s", truedirec(compass, c));
+ 				compass++;
+ 			}
+ 	}
+--- bsd-games-2.17/cribbage/io.c	2009-04-01 17:30:45.000000000 +0200
++++ bsd-games-2.17.n/cribbage/io.c	2009-04-01 17:33:53.000000000 +0200
+@@ -103,13 +103,13 @@
+ 	if (brfrank)
+ 		addmsg("%1.1s", rankchar[c.rank]);
+ 	else
+-		addmsg(rankname[c.rank]);
++		addmsg("%s", rankname[c.rank]);
+ 	if (mid != NULL)
+-		addmsg(mid);
++		addmsg("%s", mid);
+ 	if (brfsuit)
+ 		addmsg("%1.1s", suitchar[c.suit]);
+ 	else
+-		addmsg(suitname[c.suit]);
++		addmsg("%s", suitname[c.suit]);
+ 	return (TRUE);
+ }
+ 
+@@ -192,7 +192,7 @@
+ 		exit(74);
+ 	}
+ 	for (;;) {
+-		msg(prompt);
++		msg("%s", prompt);
+ 		if (incard(&crd)) {	/* if card is full card */
+ 			if (!is_one(crd, hand, n))
+ 				msg("That's not in your hand");
+@@ -345,7 +345,7 @@
+ 	int sum;
+ 
+ 	for (sum = 0;;) {
+-		msg(prompt);
++		msg("%s", prompt);
+ 		if (!(p = xgetline()) || *p == '\0') {
+ 			msg(quiet ? "Not a number" :
+ 			    "That doesn't look like a number");
+--- bsd-games-2.17/hack/hack.apply.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.apply.c	2009-04-01 17:35:52.000000000 +0200
+@@ -392,7 +392,7 @@
+ 			digtxt = "Now what exactly was it that you were digging in?";
+ 		mnewsym(dpx, dpy);
+ 		prl(dpx, dpy);
+-		pline(digtxt);	/* after mnewsym & prl */
++		pline("%s", digtxt);	/* after mnewsym & prl */
+ 		return (0);
+ 	} else {
+ 		if (IS_WALL(levl[dpx][dpy].typ)) {
+--- bsd-games-2.17.n/hack/hack.eat.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17/hack/hack.eat.c	2009-04-01 17:39:44.000000000 +0200
+@@ -132,7 +132,7 @@
+ 	useup(tin.tin);
+ 	r = rn2(2 * TTSZ);
+ 	if (r < TTSZ) {
+-		pline(tintxts[r].txt);
++		pline("%s", tintxts[r].txt);
+ 		lesshungry(tintxts[r].nut);
+ 		if (r == 1) {	/* SALMON */
+ 			Glib = rnd(15);
+--- bsd-games-2.17/hack/hack.end.c	2009-04-01 17:36:48.000000000 +0200
++++ bsd-games-2.17.n/hack/hack.end.c	2009-04-01 17:45:28.000000000 +0200
+@@ -539,7 +539,7 @@
+ 		if (t1->maxlvl != t1->level)
+ 			Sprintf(eos(linebuf), " [max %d]", t1->maxlvl);
+ 		if (quit && t1->death[4])
+-			Sprintf(eos(linebuf), t1->death + 4);
++			Sprintf(eos(linebuf), "%s", t1->death + 4);
+ 	}
+ 	if (killed)
+ 		Sprintf(eos(linebuf), " by %s%s",
+@@ -552,7 +552,7 @@
+ 		char           *bp = eos(linebuf);
+ 		char            hpbuf[10];
+ 		int             hppos;
+-		Sprintf(hpbuf, (t1->hp > 0) ? itoa(t1->hp) : "-");
++		Sprintf(hpbuf, "%s", (t1->hp > 0) ? itoa(t1->hp) : "-");
+ 		hppos = COLNO - 7 - strlen(hpbuf);
+ 		if (bp <= linebuf + hppos) {
+ 			while (bp < linebuf + hppos)
+--- bsd-games-2.17/hack/hack.invent.c	2004-01-27 21:52:07.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.invent.c	2009-04-01 17:48:33.000000000 +0200
+@@ -671,7 +671,7 @@
+ 		if (ckfn && !(*ckfn) (otmp))
+ 			continue;
+ 		if (!allflag) {
+-			pline(xprname(otmp, ilet));
++			pline("%s", xprname(otmp, ilet));
+ 			addtopl(" [nyaq]? ");
+ 			sym = readchar();
+ 		} else
+@@ -717,7 +717,7 @@
+ prinv(obj)
+ 	struct obj     *obj;
+ {
+-	pline(xprname(obj, obj_to_let(obj)));
++	pline("%s", xprname(obj, obj_to_let(obj)));
+ }
+ 
+ static char    *
+--- bsd-games-2.17/hack/hack.main.c	2009-04-01 17:49:01.000000000 +0200
++++ bsd-games-2.17.n/hack/hack.main.c	2009-04-01 17:52:07.000000000 +0200
+@@ -463,7 +463,7 @@
+ 		}
+ 		if (multi < 0) {
+ 			if (!++multi) {
+-				pline(nomovemsg ? nomovemsg :
++				pline("%s", nomovemsg ? nomovemsg :
+ 				      "You can move again.");
+ 				nomovemsg = 0;
+ 				if (afternmv)
+--- bsd-games-2.17/hack/hack.options.c	2004-01-02 19:04:51.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.options.c	2009-04-01 17:54:34.000000000 +0200
+@@ -268,7 +268,7 @@
+ 			if (*--eop == ',')
+ 				*eop = 0;
+ 		}
+-		pline(buf);
++		pline("%s", buf);
+ 	} else
+ 		parseoptions(buf, FALSE);
+ 
+--- bsd-games-2.17/hack/hack.pager.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.pager.c	2009-04-01 17:55:39.000000000 +0200
+@@ -104,7 +104,7 @@
+ 						buf[0] = q;
+ 						(void) strncpy(buf + 1, "       ", 7);
+ 					}
+-					pline(buf);
++					pline("%s", buf);
+ 					if (ep[-1] == ';') {
+ 						pline("More info? ");
+ 						if (readchar() == 'y') {
+@@ -298,7 +298,7 @@
+ 	}
+ 	/* --- now we really do it --- */
+ 	if (mode == 2 && linect == 1)	/* topline only */
+-		pline(texthead->line_text);
++		pline("%s", texthead->line_text);
+ 	else if (mode == 2) {
+ 		int             curline, lth;
+ 
+--- bsd-games-2.17/hack/hack.potion.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.potion.c	2009-04-01 17:57:32.000000000 +0200
+@@ -286,7 +286,7 @@
+ 	if (flags.beginner)
+ 		pline("You have a strange feeling for a moment, then it passes.");
+ 	else
+-		pline(txt);
++		pline("%s", txt);
+ 	if (!objects[obj->otyp].oc_name_known && !objects[obj->otyp].oc_uname)
+ 		docall(obj);
+ 	useup(obj);
+--- bsd-games-2.17/hack/hack.rumors.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.rumors.c	2009-04-01 17:58:32.000000000 +0200
+@@ -112,7 +112,7 @@
+ 	if ((ep = strchr(line, '\n')) != 0)
+ 		*ep = 0;
+ 	pline("This cookie has a scrap of paper inside! It reads: ");
+-	pline(line);
++	pline("%s", line);
+ }
+ 
+ void
+--- bsd-games-2.17/hack/hack.timeout.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/hack/hack.timeout.c	2009-04-01 17:59:28.000000000 +0200
+@@ -126,7 +126,7 @@
+ 	long            i = (Stoned & TIMEOUT);
+ 
+ 	if (i > 0 && i <= SIZE(stoned_texts))
+-		pline(stoned_texts[SIZE(stoned_texts) - i]);
++		pline("%s", stoned_texts[SIZE(stoned_texts) - i]);
+ 	if (i == 5)
+ 		Fast = 0;
+ 	if (i == 3)
+--- bsd-games-2.17/hunt/hunt/hunt.c	2009-04-01 17:56:13.000000000 +0200
++++ bsd-games-2.17.n/hunt/hunt/hunt.c	2009-04-01 18:03:37.000000000 +0200
+@@ -914,7 +914,7 @@
+ 	int serrno = errno;
+ 	fincurs();
+ 	errno = serrno;
+-	err(eval, mesg ? mesg : "");
++	err(eval, "%s", mesg ? mesg : "");
+ }
+ 
+ /*
+@@ -928,7 +928,7 @@
+ 	const char	*mesg;
+ {
+ 	fincurs();
+-	errx(eval, mesg ? mesg : "");
++	errx(eval, "%s", mesg ? mesg : "");
+ }
+ 
+ #if !defined(USE_CURSES) && defined(SIGTSTP)
+--- bsd-games-2.17/monop/misc.c	2004-12-07 14:34:21.000000000 +0100
++++ bsd-games-2.17.n/monop/misc.c	2009-04-01 18:04:44.000000000 +0200
+@@ -101,7 +101,7 @@
+ 
+ 	for (;;) {
+ inter:
+-		printf(prompt);
++		printf("%s", prompt);
+ 		num = 0;
+ 		for (sp = buf; (c=getchar()) != '\n'; *sp++ = c)
+ 			if (c == -1)	/* check for interrupted system call */
+--- bsd-games-2.17/sail/assorted.c	2003-12-17 03:47:37.000000000 +0100
++++ bsd-games-2.17.n/sail/assorted.c	2009-04-01 18:14:04.000000000 +0200
+@@ -53,7 +53,6 @@
+ 	int crew[3];
+ 	int n;
+ 	int rigg[4];
+-	const char *message;
+ 	const struct Tables *tp;
+ 
+ 	pc = on->file->pcrew;
+@@ -145,80 +144,77 @@
+ 		Write(W_RIGG, on, rigg[0], rigg[1], rigg[2], rigg[3]);
+ 	switch (shot) {
+ 	case L_ROUND:
+-		message = "firing round shot on $$";
++		makesignal(from, "firing round shot on $$", on);
+ 		break;
+ 	case L_GRAPE:
+-		message = "firing grape shot on $$";
++		makesignal(from, "firing grape shot on $$", on);
+ 		break;
+ 	case L_CHAIN:
+-		message = "firing chain shot on $$";
++		makesignal(from, "firing chain shot on $$", on);
+ 		break;
+ 	case L_DOUBLE:
+-		message = "firing double shot on $$";
++		makesignal(from, "firing double shot on $$", on);
+ 		break;
+ 	case L_EXPLODE:
+-		message = "exploding shot on $$";
++		makesignal(from, "exploding shot on $$", on);
+ 		break;
+ 	default:
+ 		errx(1, "Unknown shot type %d", shot);
+ 
+ 	}
+-	makesignal(from, message, on);
+ 	if (roll == 6 && rig) {
+ 		switch(Rhit) {
+ 		case 0:
+-			message = "fore topsail sheets parted";
++		        makemsg(on, "fore topsail sheets parted");
+ 			break;
+ 		case 1:
+-			message = "mizzen shrouds parted";
++			makemsg(on, "mizzen shrouds parted");
+ 			break;
+ 		case 2:
+-			message = "main topsail yard shot away";
++			makemsg(on, "main topsail yard shot away");
+ 			break;
+ 		case 4:
+-			message = "fore topmast and foremast shrouds shot away";
++			makemsg(on, "fore topmast and foremast shrouds shot away");
+ 			break;
+ 		case 5:
+-			message = "mizzen mast and yard shot through";
++			makemsg(on, "mizzen mast and yard shot through");
+ 			break;
+ 		case 6:
+-			message = "foremast and spritsail yard shattered";
++			makemsg(on, "foremast and spritsail yard shattered");
+ 			break;
+ 		case 7:
+-			message = "main topmast and mizzen mast shattered";
++			makemsg(on, "main topmast and mizzen mast shattered");
+ 			break;
+ 		default:
+ 			errx(1, "Bad Rhit = %d", Rhit);
+ 		}
+-		makemsg(on, message);
+ 	} else if (roll == 6) {
+ 		switch (Hhit) {
+ 		case 0:
+-			message = "anchor cables severed";
++			makemsg(on, "anchor cables severed");
+ 			break;
+ 		case 1:
+-			message = "two anchor stocks shot away";
++			makemsg(on, "two anchor stocks shot away");
+ 			break;
+ 		case 2:
+-			message = "quarterdeck bulwarks damaged";
++			makemsg(on, "quarterdeck bulwarks damaged");
+ 			break;
+ 		case 3:
+-			message = "three gun ports shot away";
++			makemsg(on, "three gun ports shot away");
+ 			break;
+ 		case 4:
+-			message = "four guns dismounted";
++			makemsg(on, "four guns dismounted");
+ 			break;
+ 		case 5:
+-			message = "rudder cables shot through";
++			makemsg(on, "rudder cables shot through");
+ 			Write(W_TA, on, 0, 0, 0, 0);
+ 			break;
+ 		case 6:
+-			message = "shot holes below the water line";
++			makemsg(on, "shot holes below the water line");
+ 			break;
+ 		default:
+ 			errx(1, "Bad Hhit = %d", Hhit);
+ 		}
+-		makemsg(on, message);
+ 	}
+ 	/*
+ 	if (Chit > 1 && on->file->readyL&R_INITIAL && on->file->readyR&R_INITIAL) {
