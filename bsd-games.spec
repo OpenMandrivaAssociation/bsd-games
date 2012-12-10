@@ -185,3 +185,196 @@ rm -rf $RPM_BUILD_ROOT
 %config %attr(664,root,games) %{_var}/games/snakerawscores
 %config %attr(664,root,games) %{_var}/games/bsd-fbg.scores
 %doc AUTHORS COPYING ChangeLog ChangeLog.0 THANKS YEAR2000 README.hunt trek/USD.doc/trek.me
+
+
+%changelog
+* Thu Dec 09 2010 Oden Eriksson <oeriksson@mandriva.com> 2.17-24mdv2011.0
++ Revision: 616865
+- the mass rebuild of 2010.0 packages
+
+* Thu Sep 10 2009 Thierry Vignaud <tv@mandriva.org> 2.17-23mdv2010.0
++ Revision: 436900
+- rebuild
+
+* Wed Apr 01 2009 Nicolas Vigier <nvigier@mandriva.com> 2.17-22mdv2009.1
++ Revision: 363385
+- rename hunt to bsd-hunt to avoid conflict with hunt package
+- add patch to fix format-security errors
+- rediff setresgid patch
+- rename rain to bsd-rain to avoid conflict with mesa-demos package (#49389)
+
+* Mon Oct 13 2008 Götz Waschk <waschk@mandriva.org> 2.17-21mdv2009.1
++ Revision: 293231
+- fix build
+
+  + Thierry Vignaud <tv@mandriva.org>
+    - rebuild
+    - kill re-definition of %%buildroot on Pixel's request
+
+  + Olivier Blin <oblin@mandriva.com>
+    - restore BuildRoot
+
+* Tue Aug 07 2007 Nicolas Vigier <nvigier@mandriva.com> 2.17-20mdv2008.0
++ Revision: 59806
+- Import bsd-games
+
+
+
+* Mon Apr 30 2007 Wart <wart@kobold.org> 2.17-20
+- Fix one more place where tetris must be renamed to bsd-fbg
+
+* Mon Apr 30 2007 Wart <wart@kobold.org> 2.17-19
+- Rename tetris to avoid legal quandries
+
+* Tue Mar 6 2007 Wart <wart@kobold.org> 2.17-18
+- Remove BR: libtermcap-devel
+- Change includes of <termcap.h> to <ncurses/termcap.h>
+
+* Tue Jan 30 2007 Wart <wart@kobold.org> 2.17-17
+- Patch to add extern "C" block to prevent c++ compiler error.
+
+* Sat Nov 18 2006 Wart <wart@kobold.org> 2.17-16
+- Drop the useless game 'wargames'
+
+* Sat Oct 14 2006 Wart <wart@kobold.org> 2.17-15
+- Reintroduce the 'banner' program as 'vert-banner' (BZ #209018)
+
+* Mon Aug 28 2006 Wart <wart@kobold.org> 2.17-14
+- Rebuild for Fedora Extras
+
+* Wed May 31 2006 Wart <wart@kobold.org> 2.17-13
+- Added missing BR: bison
+
+* Wed May 31 2006 Wart <wart@kobold.org> 2.17-12
+- Added missing BR: flex
+
+* Tue May 2 2006 Wart <wart@kobold.org> 2.17-11
+- Rename monop man page to match the renamed executable.
+
+* Mon May 1 2006 Wart <wart@kobold.org> 2.17-10
+- Remove banner (conflict with a similar package in FE)
+
+* Sat Apr 29 2006 Wart <wart@kobold.org> 2.17-9
+- Simplify files section
+- Remove unnecessary comment
+- Mark scoreboard files as %%config
+
+* Fri Apr 28 2006 Wart <wart@kobold.org> 2.17-8
+- Fix directory ownership of _datadir/bsd-games
+- Change license to BSD
+
+* Thu Apr 27 2006 Wart <wart@kobold.org> 2.17-7
+- Remove dm for Fedora
+- Turn off setgid bit for cfscores
+- Limit setgid code segments in hack
+- Limit setgid code segments in phantasia
+
+* Wed Apr 26 2006 Wart <wart@kobold.org> 2.17-6
+- Remove bones file modifications from hack and run with a custom group
+  instead.
+
+* Sun Apr 24 2006 Wart <wart@kobold.org> 2.17-5
+- Modified bones file handling to allow us to drop setgid earlier.
+
+* Sat Apr 22 2006 Wart <wart@kobold.org> 2.17-4
+- Added dist tag to release number
+- Added patch to limit potential security holes in tetris-bsd
+- Added patch set from Debian's package, which includes a security patch
+  for CVE-2006-1744
+- Rename monop to mpoly to avoid conflict with the mono-devel package.
+
+* Fri Apr 14 2006 Wart <wart@kobold.org> 2.17-3
+- Updated setresgid patch to disable potential security holes from
+  user-specified scoreboard files.
+- Move hack save games to $HOME, but can be moved using HACKDIR or the
+  '-d' command line option.
+
+* Sat Apr 8 2006 Wart <wart@kobold.org> 2.17-2
+- Added patch to change use of setregid to setresgid almost everywhere.
+- Added missing BuildRequires
+
+* Mon Apr 3 2006 Wart <wart@kobold.org> 2.17-1
+- Updated to 2.17 with new configuration system
+- Updated patches for 2.17
+- Updated spec file for Fedora Extras
+
+* Fri Feb 16 2001 Tim Powers <timp@redhat.com>
+- fixed getline() redefinition, it is included in stdio.h now, so 
+  getline had to be renamed. Also, -D_GNU_SOURCE
+- fix bug 27850, where certain games need to be setgid games, and 
+  their scorefiles etc. need to belong to group games
+
+* Tue Aug 1 2000 Tim Powers <timp@redhat.com>
+- fix bug #15013, bad dir permissions
+
+* Mon Jul 24 2000 Prospector <prospector@redhat.com>
+- rebuilt
+
+* Thu Jul 13 2000 Trond Eivind Glomsrød <teg@redhat.com>
+- use %%{_tmppath}
+- don't use internal rpm programs 
+- kill countmail, no longer require frm from elm
+
+* Mon Jun 5 2000 Tim Powers <timp@redhat.com>
+- fixed man page location to be in %%{_mandir}
+- fixed so that regular users can build
+
+* Fri May 5 2000 Tim Powers <timp@redhat.com>
+- rebuilt for 7.0
+- compress man pages
+
+* Thu Feb 10 2000 Tim Powers <timp@redhat.com>
+- strip binaries.
+
+* Sun Nov 21 1999 Bernhard Rosenkraenzer <bero@redhat.com>
+- 2.9
+
+* Mon Nov 1 1999 Tim Powers <timp@redhat.com>
+- updated source to 2.8
+- fixed problem with ospeed being defined in the source instead of including
+  termcap.h (new ospeed patch)
+- using files list in %%files section instead of entering
+  _every_single_filename_.
+
+* Sat Aug 21 1999 Bill Nottingham <notting@redhat.com>
+- fix countmail (#3722). I must be bored.
+
+* Mon Aug 16 1999 Bill Nottingham <notting@redhat.com>
+- make dm setgid games, not setuid root...
+
+* Fri Jul 9 1999 Tim Powers <timp@redhat.com>
+- updated source to 2.7
+- updated patches to fix bugs and the braindead configure script, 
+  dropped a few of the older patches that made it into this release
+- replaced -make install with make install-strip
+- built for 6.1
+
+* Wed May 12 1999 Bill Nottingham <notting@redhat.com>
+- pick up some more files
+
+* Thu Apr 01 1999 Michael Maher <mike@redhat.com>
+- only a fool would add a dependency to this package on a 
+  day like today.
+
+* Fri Mar 18 1999 Michael Maher <mike@redhat.com>
+- fixed bug 1550
+
+* Mon Feb 08 1999 Michael Maher <mike@redhat.com>
+- moved pacakge to PowerTools.
+
+* Thu Jun 18 1998 Alan Cox <alan@redhat.com>
+- Chris Evans pointed out a hole in sail I missed.
+
+* Wed Jun 17 1998 Alan Cox <alan@redhat.com>
+- Stopped people using cribbage to be able to cheat game score files.
+
+* Tue May 05 1998 Prospector System <bugs@redhat.com>
+- translations modified for de, fr, tr
+
+* Thu Apr 30 1998 Cristian Gafton <gafton@redhat.com>
+- fixed the config patch so that it will build on non /usr/src/redhat build
+  trees
+
+* Tue Apr 07 1998 Erik Troan <ewt@redhat.com>
+- updated to bsd-games 2.1
+- started over on package
