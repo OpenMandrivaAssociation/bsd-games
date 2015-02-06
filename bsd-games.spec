@@ -1,7 +1,7 @@
 Summary: Collection of text-based games
 Name: bsd-games
 Version: 2.17
-Release: %mkrel 24
+Release: 25
 License: BSD
 Group: Games/Other
 URL: ftp://metalab.unc.edu/pub/Linux/games/
